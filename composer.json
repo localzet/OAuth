@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "localzet\\LIS\\": "./src"
+            "LIS\\": "./src"
         }
     },
     "minimum-stability": "dev"
