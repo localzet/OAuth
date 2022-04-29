@@ -127,7 +127,7 @@ class LIS
             foreach ($fs as $file) {
                 if (!$file->isDir()) {
                     $provider = strtok($file->getFilename(), '.');
-                    if ($name === mb_strtolower($provider)) {
+                    if (mb_strtolower($name) === mb_strtolower($provider)) {
                         $adapter = sprintf('LIS\\Provider\\%s', $provider);
                         break;
                     }
