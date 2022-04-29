@@ -1,0 +1,34 @@
+{
+    "name": "localzet/lis",
+    "version": "1.0.0-dev",
+    "type": "library",
+    "keywords": [
+        "localzet",
+        "Zorin Projects",
+        "NONA",
+        "framex"
+    ],
+    "license": "GPL-3.0-only",
+    "description": "PHP OAuth Library",
+    "authors": [{
+        "name": "localzet",
+        "email": "creator@localzet.ru",
+        "homepage": "https://www.localzet.ru",
+        "role": "Developer"
+    }],
+    "support": {
+        "email": "creator@localzet.ru"
+    },
+    "require": {
+        "php": "^5.4 || ^7.0 || ^8.0"
+    },
+    "suggest": {
+        "ext-event": "For better performance. "
+    },
+    "autoload": {
+        "psr-4": {
+            "LIS\\": "./src"
+        }
+    },
+    "minimum-stability": "dev"
+}
