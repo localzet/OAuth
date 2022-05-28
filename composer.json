@@ -1,6 +1,5 @@
 {
     "name": "localzet/lis",
-    "version": "v1.0.0",
     "type": "library",
     "keywords": [
         "localzet",
@@ -29,6 +28,5 @@
         "psr-4": {
             "LIS\\": "./src"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
