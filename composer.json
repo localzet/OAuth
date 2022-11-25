@@ -1,5 +1,5 @@
 {
-    "name": "localzet/lis",
+    "name": "localzet-lib/oauth",
     "description": "PHP OAuth Library",
     "type": "library",
     "keywords": [
