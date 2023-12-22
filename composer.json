@@ -1,32 +1,53 @@
 {
     "name": "localzet/oauth",
-    "description": "Localzet OAuth Library",
+    "description": "Localzet OAuth - это мощная библиотека для OAuth-аутентификации, поддерживающая множество популярных провайдеров, таких как Google, Facebook, Twitter и Apple.",
     "type": "library",
     "keywords": [
+        "oauth",
+        "openid",
+        "authentication",
+        "authorization",
+        "social",
+        "api",
+        "google",
+        "facebook",
+        "twitter",
+        "apple",
         "localzet",
-        "library"
+        "library",
+        "OAuth2",
+        "identity",
+        "security",
+        "login"
     ],
+    "homepage": "https://www.localzet.com/projects/oauth",
     "license": "AGPL-3.0-or-later",
-    "authors": [{
-        "name": "Ivan Zorin",
-        "email": "creator@localzet.com",
-        "homepage": "https://www.localzet.com",
-        "role": "Developer"
-    }],
+    "authors": [
+        {
+            "name": "Ivan Zorin",
+            "email": "creator@localzet.com",
+            "homepage": "https://www.localzet.com",
+            "role": "Developer"
+        }
+    ],
     "support": {
         "email": "support@localzet.com",
+        "issues": "https://github.com/localzet/OAuth/issues",
         "source": "https://github.com/localzet/OAuth"
     },
-    "funding": [{
-        "type": "other",
-        "url": "https://www.tinkoff.ru/cf/Ad5MBNhodod"
-    }],
     "require": {
-        "php": "^8.0"
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "ext-curl": "*"
+    },
+    "suggest": {
+        "localzet/jwt": "Needed to support Apple provider",
+        "phpseclib/phpseclib": "Needed to support Apple provider"
     },
     "autoload": {
         "psr-4": {
-            "LIS\\": "src/"
+            "localzet\\": "src"
         }
     }
 }
