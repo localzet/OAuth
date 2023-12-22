@@ -26,6 +26,8 @@
 
 namespace localzet\OAuth\Data;
 
+use StdClass;
+
 /**
  * Parser
  *
@@ -76,7 +78,7 @@ final class Parser
      *
      * @param $result
      *
-     * @return mixed
+     * @return array
      */
     public function parseXml($result)
     {
@@ -102,7 +104,7 @@ final class Parser
      *
      * @param $result
      *
-     * @return \StdClass
+     * @return StdClass
      */
     public function parseQueryString($result)
     {
@@ -112,7 +114,7 @@ final class Parser
             return $result;
         }
 
-        $result = new \StdClass();
+        $result = new StdClass();
 
         foreach ($output as $k => $v) {
             $result->$k = $v;
@@ -130,7 +132,7 @@ final class Parser
      */
     public function parseBirthday($birthday)
     {
-        $birthday = date_parse((string) $birthday);
+        $birthday = date_parse((string)$birthday);
 
         return [$birthday['year'], $birthday['month'], $birthday['day']];
     }

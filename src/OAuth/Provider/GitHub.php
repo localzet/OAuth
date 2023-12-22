@@ -26,9 +26,10 @@
 
 namespace localzet\OAuth\Provider;
 
+use Exception;
 use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
 /**
@@ -91,7 +92,7 @@ class GitHub extends OAuth2
             try {
                 // user email is not mandatory so keep it quite.
                 $userProfile = $this->requestUserEmail($userProfile);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
@@ -106,7 +107,7 @@ class GitHub extends OAuth2
      *
      * @return User\Profile
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function requestUserEmail(User\Profile $userProfile)
     {

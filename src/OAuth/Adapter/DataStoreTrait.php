@@ -26,6 +26,8 @@
 
 namespace localzet\OAuth\Adapter;
 
+use localzet\OAuth\Storage\StorageInterface;
+
 /**
  * Trait DataStoreTrait
  */
@@ -34,7 +36,7 @@ trait DataStoreTrait
     /**
      * Returns storage instance
      *
-     * @return \localzet\OAuth\Storage\StorageInterface
+     * @return StorageInterface
      */
     abstract public function getStorage();
 

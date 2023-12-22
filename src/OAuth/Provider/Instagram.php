@@ -28,6 +28,9 @@ namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
 use localzet\OAuth\Data\Collection;
+use localzet\OAuth\Exception\HttpClientFailureException;
+use localzet\OAuth\Exception\HttpRequestFailedException;
+use localzet\OAuth\Exception\InvalidAccessTokenException;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
@@ -118,8 +121,8 @@ class Instagram extends OAuth2
      * Exchange the Access Token with one that expires further in the future.
      *
      * @return string Raw Provider API response
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      * @throws InvalidAccessTokenException
      */
     public function exchangeAccessToken()
@@ -132,17 +135,17 @@ class Instagram extends OAuth2
             Facebook/Instagram documentation is not very helpful at explaining that!
             */
             $exchangeTokenParameters = [
-                'grant_type'        => 'ig_refresh_token',
-                'client_secret'     => $this->clientSecret,
-                'access_token'      => $this->getStoredData('access_token'),
+                'grant_type' => 'ig_refresh_token',
+                'client_secret' => $this->clientSecret,
+                'access_token' => $this->getStoredData('access_token'),
             ];
             $url = 'https://graph.instagram.com/refresh_access_token';
         } else {
             // Exchange short-lived to long-lived
             $exchangeTokenParameters = [
-                'grant_type'        => 'ig_exchange_token',
-                'client_secret'     => $this->clientSecret,
-                'access_token'      => $this->getStoredData('access_token'),
+                'grant_type' => 'ig_exchange_token',
+                'client_secret' => $this->clientSecret,
+                'access_token' => $this->getStoredData('access_token'),
             ];
             $url = 'https://graph.instagram.com/access_token';
         }
@@ -193,12 +196,12 @@ class Instagram extends OAuth2
      * @param string $pageId Current pager ID.
      * @param array|null $fields Fields to fetch per media.
      *
-     * @return \localzet\OAuth\Data\Collection
+     * @return Collection
      *
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
-     * @throws \localzet\OAuth\Exception\InvalidAccessTokenException
-     * @throws \localzet\OAuth\Exception\UnexpectedApiResponseException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
+     * @throws InvalidAccessTokenException
+     * @throws UnexpectedApiResponseException
      */
     public function getUserMedia($limit = 12, $pageId = null, array $fields = null)
     {
@@ -239,12 +242,12 @@ class Instagram extends OAuth2
      * @param string $mediaId Media ID.
      * @param array|null $fields Fields to fetch per media.
      *
-     * @return \localzet\OAuth\Data\Collection
+     * @return Collection
      *
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
-     * @throws \localzet\OAuth\Exception\InvalidAccessTokenException
-     * @throws \localzet\OAuth\Exception\UnexpectedApiResponseException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
+     * @throws InvalidAccessTokenException
+     * @throws UnexpectedApiResponseException
      */
     public function getMedia($mediaId, array $fields = null)
     {

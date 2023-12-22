@@ -26,10 +26,11 @@
 
 namespace localzet\OAuth\Provider;
 
+use Exception;
 use localzet\OAuth\Adapter\OpenID;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
-use localzet\OAuth\User;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
+use SimpleXMLElement;
 
 /**
  * Steam OpenID provider adapter.
@@ -96,7 +97,7 @@ class Steam extends OpenID
             foreach ($result as $k => $v) {
                 $userProfile->$k = $v ?: $userProfile->$k;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         // store user profile
@@ -120,7 +121,7 @@ class Steam extends OpenID
 
         $data = json_decode($response);
 
-        $data = isset($data->response->players[0]) ? $data->response->players[0] : null;
+        $data = $data->response->players[0] ?? null;
 
         $data = new Data\Collection($data);
 
@@ -139,6 +140,7 @@ class Steam extends OpenID
      * Fetch user profile on community API
      * @param $steam64
      * @return array
+     * @throws Exception
      */
     public function getUserProfileLegacyAPI($steam64)
     {
@@ -148,7 +150,7 @@ class Steam extends OpenID
 
         $response = $this->httpClient->request($apiUrl);
 
-        $data = new \SimpleXMLElement($response);
+        $data = new SimpleXMLElement($response);
 
         $data = new Data\Collection($data);
 

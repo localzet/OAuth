@@ -27,11 +27,11 @@
 namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
-use localzet\OAuth\Data\Collection;
-use localzet\OAuth\User\Profile;
 use localzet\OAuth\Data;
-use localzet\OAuth\User;
+use localzet\OAuth\Data\Collection;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
+use localzet\OAuth\User\Contact;
+use localzet\OAuth\User\Profile;
 
 /**
  * Vkontakte OAuth2 provider adapter.
@@ -218,11 +218,11 @@ class Vkontakte extends OAuth2
      *
      * @param array $item
      *
-     * @return \localzet\OAuth\User\Contact
+     * @return Contact
      */
     protected function fetchUserContact($item)
     {
-        $userContact = new User\Contact();
+        $userContact = new Contact();
         $data = new Data\Collection($item);
 
         $userContact->identifier = $data->get('id');

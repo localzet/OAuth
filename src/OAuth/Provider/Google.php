@@ -26,9 +26,10 @@
 
 namespace localzet\OAuth\Provider;
 
+use Exception;
 use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
 /**
@@ -168,7 +169,7 @@ class Google extends OAuth2
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getGmailContacts($parameters = [])
     {
@@ -198,7 +199,7 @@ class Google extends OAuth2
                 if (property_exists($response, 'website')) {
                     if (is_array($response->website)) {
                         foreach ($response->website as $w) {
-                            if ($w->primary == true) {
+                            if ($w->primary) {
                                 $uc->webSiteURL = $w->value;
                             }
                         }

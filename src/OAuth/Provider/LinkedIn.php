@@ -26,8 +26,9 @@
 
 namespace localzet\OAuth\Provider;
 
+use Exception;
 use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Data;
+use localzet\OAuth\Data\Collection;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
@@ -90,7 +91,7 @@ class LinkedIn extends OAuth2
 
 
         $response = $this->apiRequest('me', 'GET', ['projection' => '(' . implode(',', $fields) . ')']);
-        $data = new Data\Collection($response);
+        $data = new Collection($response);
 
         if (!$data->exists('id')) {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
@@ -153,7 +154,7 @@ class LinkedIn extends OAuth2
      * @return string
      *   The user email address.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getUserEmail()
     {
@@ -161,10 +162,10 @@ class LinkedIn extends OAuth2
             'q' => 'members',
             'projection' => '(elements*(handle~))',
         ]);
-        $data = new Data\Collection($response);
+        $data = new Collection($response);
 
         foreach ($data->filter('elements')->toArray() as $element) {
-            $item = new Data\Collection($element);
+            $item = new Collection($element);
 
             if ($email = $item->filter('handle~')->get('emailAddress')) {
                 return $email;
@@ -178,12 +179,12 @@ class LinkedIn extends OAuth2
      * {@inheritdoc}
      *
      * @see https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin
-     * @throws \Exception
+     * @throws Exception
      */
     public function setUserStatus($status, $userID = null)
     {
         if (strpos($this->scope, 'w_member_social') === false) {
-            throw new \Exception('Set user status requires w_member_social permission!');
+            throw new Exception('Set user status requires w_member_social permission!');
         }
 
         if (is_string($status)) {
@@ -219,7 +220,7 @@ class LinkedIn extends OAuth2
     /**
      * Returns a preferred locale for given field.
      *
-     * @param \localzet\OAuth\Data\Collection $data
+     * @param Collection $data
      *   A data to check.
      * @param string $field_name
      *   A field name to perform.

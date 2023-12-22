@@ -28,63 +28,87 @@ namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
 /**
- * GitLab OAuth2 provider adapter.
+ * Keycloak OpenId Connect provider adapter.
+ *
+ * Example:
+ *         'Keycloak' => [
+ *             'enabled' => true,
+ *             'url' => 'https://your-keycloak', // depending on your setup you might need to add '/auth'
+ *             'realm' => 'your-realm',
+ *             'keys' => [
+ *                 'id' => 'client-id',
+ *                 'secret' => 'client-secret'
+ *             ]
+ *         ]
+ *
  */
-class Strava extends OAuth2
+class Keycloak extends OAuth2
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected $scope = 'profile:read_all';
 
     /**
      * {@inheritdoc}
      */
-    protected $apiBaseUrl = 'https://www.strava.com/api/v3/';
+    public $scope = 'openid profile email';
 
     /**
      * {@inheritdoc}
      */
-    protected $authorizeUrl = 'https://www.strava.com/oauth/authorize';
+    protected $apiDocumentation = 'https://www.keycloak.org/docs/latest/securing_apps/#_oidc';
 
     /**
      * {@inheritdoc}
      */
-    protected $accessTokenUrl = 'https://www.strava.com/oauth/token';
+    protected function configure()
+    {
+        parent::configure();
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $apiDocumentation = 'https://developers.strava.com/docs/reference/';
+        if (!$this->config->exists('url')) {
+            throw new InvalidApplicationCredentialsException(
+                'You must define a provider url'
+            );
+        }
+        $url = $this->config->get('url');
+
+        if (!$this->config->exists('realm')) {
+            throw new InvalidApplicationCredentialsException(
+                'You must define a realm'
+            );
+        }
+        $realm = $this->config->get('realm');
+
+        $this->apiBaseUrl = $url . '/realms/' . $realm . '/protocol/openid-connect/';
+
+        $this->authorizeUrl = $this->apiBaseUrl . 'auth';
+        $this->accessTokenUrl = $this->apiBaseUrl . 'token';
+
+    }
 
     /**
      * {@inheritdoc}
      */
     public function getUserProfile()
     {
-        $response = $this->apiRequest('athlete');
+        $response = $this->apiRequest('userinfo');
 
         $data = new Data\Collection($response);
 
-        if (!$data->exists('id')) {
+        if (!$data->exists('sub')) {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
         $userProfile = new User\Profile();
 
-        $userProfile->identifier = $data->get('id');
-        $userProfile->firstName = $data->get('firstname');
-        $userProfile->lastName = $data->get('lastname');
-        $userProfile->gender = $data->get('sex');
-        $userProfile->country = $data->get('country');
-        $userProfile->city = $data->get('city');
+        $userProfile->identifier = $data->get('sub');
+        $userProfile->displayName = $data->get('preferred_username');
         $userProfile->email = $data->get('email');
-
-        $userProfile->displayName = $userProfile->displayName ?: $data->get('username');
+        $userProfile->firstName = $data->get('given_name');
+        $userProfile->lastName = $data->get('family_name');
+        $userProfile->emailVerified = $data->get('email_verified');
 
         return $userProfile;
     }

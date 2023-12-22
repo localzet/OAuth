@@ -27,10 +27,10 @@
 namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
+use localzet\OAuth\Data\Collection;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 use localzet\OAuth\User\Profile;
-use localzet\OAuth\Data\Collection;
 
 /**
  * Patreon OAuth2 provider adapter.

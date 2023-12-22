@@ -27,6 +27,7 @@
 namespace localzet\OAuth\User;
 
 use localzet\OAuth\Exception\UnexpectedValueException;
+use stdClass;
 
 /**
  * localzet\OAuth\User\Activity
@@ -66,7 +67,7 @@ final class Activity
      */
     public function __construct()
     {
-        $this->user = new \stdClass();
+        $this->user = new stdClass();
 
         // typically, we should have a few information about the user who created the event from social apis
         $this->user->identifier = null;

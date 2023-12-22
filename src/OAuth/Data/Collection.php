@@ -49,7 +49,7 @@ final class Collection
     /**
      * Retrieves the whole collection as array
      *
-     * @return mixed
+     * @return array
      */
     public function toArray()
     {
@@ -124,7 +124,7 @@ final class Collection
      *
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return !(bool)$this->count();
     }
@@ -134,7 +134,7 @@ final class Collection
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->properties());
     }

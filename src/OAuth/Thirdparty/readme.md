@@ -1,9 +1,10 @@
 ##### Third party libraries
 
-Here we include a number of third party libraries. Those libraries are used by the various providers supported by localzet\\OAuth.
+Here we include a number of third party libraries. Those libraries are used by the various providers supported by
+localzet\\OAuth.
 
 | Library                                           | Description                                                               |
-| ------------------------------------------------- | ------------------------------------------------------------------------- |
+|---------------------------------------------------|---------------------------------------------------------------------------|
 | [LightOpenID](https://gitorious.org/lightopenid)  | Contain LightOpenID. Solid OpenID library licensed under the MIT License. |
 | [OAuth Library](https://code.google.com/p/oauth/) | Contain OAuth Library licensed under the MIT License.                     |
 

@@ -26,11 +26,16 @@
 
 namespace localzet\OAuth\Provider;
 
-use localzet\OAuth\Exception\InvalidArgumentException;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Adapter\OAuth2;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\HttpClientFailureException;
+use localzet\OAuth\Exception\HttpRequestFailedException;
+use localzet\OAuth\Exception\InvalidAccessTokenException;
+use localzet\OAuth\Exception\InvalidArgumentException;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
+use localzet\OAuth\User\Contact;
+use localzet\OAuth\User\Profile;
 
 /**
  * Facebook OAuth2 provider adapter.
@@ -131,9 +136,9 @@ class Facebook extends OAuth2
      * Exchange the Access Token with one that expires further in the future.
      *
      * @return string Raw Provider API response
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
-     * @throws \localzet\OAuth\Exception\InvalidAccessTokenException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
+     * @throws InvalidAccessTokenException
      */
     public function exchangeAccessToken()
     {
@@ -174,7 +179,7 @@ class Facebook extends OAuth2
             'hometown',
             'birthday',
         ];
-        
+
         if (strpos($this->scope, 'user_link') !== false) {
             $fields[] = 'link';
         }
@@ -196,7 +201,7 @@ class Facebook extends OAuth2
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
-        $userProfile = new User\Profile();
+        $userProfile = new Profile();
 
         $userProfile->identifier = $data->get('id');
         $userProfile->displayName = $data->get('name');
@@ -233,11 +238,11 @@ class Facebook extends OAuth2
     /**
      * Retrieve the user region.
      *
-     * @param User\Profile $userProfile
+     * @param Profile $userProfile
      *
-     * @return \localzet\OAuth\User\Profile
+     * @return Profile
      */
-    protected function fetchUserRegion(User\Profile $userProfile)
+    protected function fetchUserRegion(Profile $userProfile)
     {
         if (!empty($userProfile->region)) {
             $regionArr = explode(',', $userProfile->region);
@@ -254,12 +259,12 @@ class Facebook extends OAuth2
     /**
      * Retrieve the user birthday.
      *
-     * @param User\Profile $userProfile
+     * @param Profile $userProfile
      * @param string $birthday
      *
-     * @return \localzet\OAuth\User\Profile
+     * @return Profile
      */
-    protected function fetchBirthday(User\Profile $userProfile, $birthday)
+    protected function fetchBirthday(Profile $userProfile, $birthday)
     {
         $result = (new Data\Parser())->parseBirthday($birthday);
 
@@ -315,11 +320,11 @@ class Facebook extends OAuth2
      *
      * @param array $item
      *
-     * @return \localzet\OAuth\User\Contact
+     * @return Contact
      */
     protected function fetchUserContact($item)
     {
-        $userContact = new User\Contact();
+        $userContact = new Contact();
 
         $item = new Data\Collection($item);
 

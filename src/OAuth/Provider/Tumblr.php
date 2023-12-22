@@ -27,8 +27,8 @@
 namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth1;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
 /**

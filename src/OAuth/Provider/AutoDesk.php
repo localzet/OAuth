@@ -27,7 +27,6 @@
 namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
 use localzet\OAuth\User;
 
@@ -76,12 +75,12 @@ class AutoDesk extends OAuth2
     protected function initialize()
     {
         parent::initialize();
-        
+
         if ($this->isRefreshTokenAvailable()) {
             $this->tokenRefreshParameters += [
-                'client_id'     => $this->clientId,
+                'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
-                'grant_type'    => 'refresh_token',
+                'grant_type' => 'refresh_token',
             ];
         }
     }
@@ -101,7 +100,7 @@ class AutoDesk extends OAuth2
 
         $userProfile->identifier = $collection->get('userId');
         $userProfile->displayName
-            = $collection->get('firstName') .' '. $collection->get('lastName');
+            = $collection->get('firstName') . ' ' . $collection->get('lastName');
         $userProfile->firstName = $collection->get('firstName');
         $userProfile->lastName = $collection->get('lastName');
         $userProfile->email = $collection->get('emailId');

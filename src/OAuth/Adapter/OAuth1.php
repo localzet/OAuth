@@ -26,12 +26,15 @@
 
 namespace localzet\OAuth\Adapter;
 
-use localzet\OAuth\Exception\Exception;
-use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
-use localzet\OAuth\Exception\AuthorizationDeniedException;
-use localzet\OAuth\Exception\InvalidOauthTokenException;
-use localzet\OAuth\Exception\InvalidAccessTokenException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Data\Collection;
+use localzet\OAuth\Exception\AuthorizationDeniedException;
+use localzet\OAuth\Exception\Exception;
+use localzet\OAuth\Exception\HttpClientFailureException;
+use localzet\OAuth\Exception\HttpRequestFailedException;
+use localzet\OAuth\Exception\InvalidAccessTokenException;
+use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
+use localzet\OAuth\Exception\InvalidOauthTokenException;
 use localzet\OAuth\HttpClient;
 use localzet\OAuth\Thirdparty\OAuth\OAuthConsumer;
 use localzet\OAuth\Thirdparty\OAuth\OAuthRequest;
@@ -285,8 +288,8 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      * Finalize the authorization process
      *
      * @throws AuthorizationDeniedException
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      * @throws InvalidAccessTokenException
      * @throws InvalidOauthTokenException
      */
@@ -359,8 +362,8 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      * 6.1.1. Consumer Obtains a Request Token
      *
      * @return string Raw Provider API response
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      */
     protected function requestAuthToken()
     {
@@ -396,7 +399,7 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      *
      * @param string $response
      *
-     * @return \localzet\OAuth\Data\Collection
+     * @return Collection
      * @throws InvalidOauthTokenException
      */
     protected function validateAuthTokenRequest($response)
@@ -425,7 +428,7 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
          */
         $tokens = OAuthUtil::parse_parameters($response);
 
-        $collection = new Data\Collection($tokens);
+        $collection = new Collection($tokens);
 
         if (!$collection->exists('oauth_token')) {
             throw new InvalidOauthTokenException(
@@ -456,8 +459,8 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      * @param string $oauth_verifier
      *
      * @return string Raw Provider API response
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      */
     protected function exchangeAuthTokenForAccessToken($oauth_token, $oauth_verifier = '')
     {
@@ -496,7 +499,7 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      *
      * @param string $response
      *
-     * @return \localzet\OAuth\Data\Collection
+     * @return Collection
      * @throws InvalidAccessTokenException
      */
     protected function validateAccessTokenExchange($response)
@@ -523,7 +526,7 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
          */
         $tokens = OAuthUtil::parse_parameters($response);
 
-        $collection = new Data\Collection($tokens);
+        $collection = new Collection($tokens);
 
         if (!$collection->exists('oauth_token')) {
             throw new InvalidAccessTokenException(
@@ -558,8 +561,8 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      * @param bool $multipart
      *
      * @return mixed
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      */
     public function apiRequest($url, $method = 'GET', $parameters = [], $headers = [], $multipart = false)
     {
@@ -593,8 +596,8 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
      * @param bool $multipart
      *
      * @return string Raw Provider API response
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      */
     protected function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [], $multipart = false)
     {

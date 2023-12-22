@@ -26,12 +26,15 @@
 
 namespace localzet;
 
+use FilesystemIterator;
+use localzet\OAuth\Adapter\AdapterInterface;
 use localzet\OAuth\Exception\InvalidArgumentException;
 use localzet\OAuth\Exception\UnexpectedValueException;
-use localzet\OAuth\Storage\StorageInterface;
-use localzet\OAuth\Logger\LoggerInterface;
-use localzet\OAuth\Logger\Logger;
 use localzet\OAuth\HttpClient\HttpClientInterface;
+use localzet\OAuth\Logger\Logger;
+use localzet\OAuth\Logger\LoggerInterface;
+use localzet\OAuth\Storage\StorageInterface;
+use SplFileInfo;
 
 /**
  * localzet\OAuth - Localzet Identification System
@@ -69,9 +72,9 @@ class OAuth
 
     /**
      * @param array|string $config Массив с конфигурацией или путем к файлу PHP, который вернет массив
-     * @param HttpClientInterface $httpClient
-     * @param StorageInterface $storage
-     * @param LoggerInterface $logger
+     * @param HttpClientInterface|null $httpClient
+     * @param StorageInterface|null $storage
+     * @param LoggerInterface|null $logger
      *
      * @throws InvalidArgumentException
      */
@@ -80,7 +83,8 @@ class OAuth
         HttpClientInterface $httpClient = null,
         StorageInterface $storage = null,
         LoggerInterface $logger = null
-    ) {
+    )
+    {
         if (is_string($config) && file_exists($config)) {
             $config = include $config;
         } elseif (!is_array($config)) {
@@ -88,11 +92,11 @@ class OAuth
         }
 
         $this->config = $config + [
-            'debug_mode' => Logger::NONE,
-            'debug_file' => '',
-            'curl_options' => null,
-            'providers' => []
-        ];
+                'debug_mode' => Logger::NONE,
+                'debug_file' => '',
+                'curl_options' => null,
+                'providers' => []
+            ];
         $this->storage = $storage;
         $this->logger = $logger;
         $this->httpClient = $httpClient;
@@ -107,11 +111,11 @@ class OAuth
      *
      * @param string $name adapter's name (case insensitive)
      *
-     * @return \localzet\OAuth\Adapter\AdapterInterface
+     * @return AdapterInterface
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function authenticate($name)
+    public function authenticate(string $name): AdapterInterface
     {
         $adapter = $this->getAdapter($name);
 
@@ -125,20 +129,20 @@ class OAuth
      *
      * @param string $name adapter's name (case insensitive)
      *
-     * @return \localzet\OAuth\Adapter\AdapterInterface
+     * @return AdapterInterface
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function getAdapter($name)
+    public function getAdapter(string $name): AdapterInterface
     {
         $config = $this->getProviderConfig($name);
 
-        $adapter = isset($config['adapter']) ? $config['adapter'] : sprintf('localzet\\OAuth\\Provider\\%s', $name);
+        $adapter = $config['adapter'] ?? sprintf('localzet\\OAuth\\Provider\\%s', $name);
 
         if (!class_exists($adapter)) {
             $adapter = null;
-            $fs = new \FilesystemIterator(__DIR__ . '/Provider/');
-            /** @var \SplFileInfo $file */
+            $fs = new FilesystemIterator(__DIR__ . '/Provider/');
+            /** @var SplFileInfo $file */
             foreach ($fs as $file) {
                 if (!$file->isDir()) {
                     $provider = strtok($file->getFilename(), '.');
@@ -248,7 +252,7 @@ class OAuth
     /**
      * Returns a list of new instances of currently connected adapters
      *
-     * @return \localzet\OAuth\Adapter\AdapterInterface[]
+     * @return AdapterInterface[]
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */

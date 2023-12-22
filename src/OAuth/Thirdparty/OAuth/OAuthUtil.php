@@ -42,7 +42,7 @@ class OAuthUtil
     /**
      * @param $input
      *
-     * @return array|mixed|string
+     * @return array|string
      */
     public static function urlencode_rfc3986($input)
     {
@@ -57,7 +57,7 @@ class OAuthUtil
             return '';
         }
     }
-    
+
     // This decode function isn't taking into consideration the above
     // modifications to the encoding process. However, this method doesn't
     // seem to be used anywhere so leaving it as is.
@@ -70,7 +70,7 @@ class OAuthUtil
     {
         return urldecode($string);
     }
-    
+
     // Utility function for turning the Authorization: header into
     // parameters, has to do some unescaping
     // Can filter out any non-oauth parameters if needed (default behaviour)
@@ -95,7 +95,7 @@ class OAuthUtil
         }
         return $params;
     }
-    
+
     // helper to try to sort out headers for people who aren't running apache
 
     /**
@@ -107,14 +107,14 @@ class OAuthUtil
             // we need this to get the actual Authorization: header
             // because apache tends to tell us it doesn't exist
             $headers = apache_request_headers();
-            
+
             // sanitize the output of apache_request_headers because
             // we always want the keys to be Cased-Like-This and arh()
             // returns the headers in the same case as they are in the
             // request
             $out = array();
             foreach ($headers as $key => $value) {
-                $key       = str_replace(" ", "-", ucwords(strtolower(str_replace("-", " ", $key))));
+                $key = str_replace(" ", "-", ucwords(strtolower(str_replace("-", " ", $key))));
                 $out[$key] = $value;
             }
         } else {
@@ -127,13 +127,13 @@ class OAuthUtil
             if (isset($_ENV['CONTENT_TYPE'])) {
                 $out['Content-Type'] = $_ENV['CONTENT_TYPE'];
             }
-            
+
             foreach ($_SERVER as $key => $value) {
                 if (substr($key, 0, 5) == "HTTP_") {
                     // this is chaos, basically it is just there to capitalize the first
                     // letter of every word that is not an initial HTTP and strip HTTP
                     // code from przemek
-                    $key       = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
+                    $key = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
                     $out[$key] = $value;
                 }
             }
@@ -154,19 +154,19 @@ class OAuthUtil
         if (!isset($input) || !$input) {
             return array();
         }
-        
+
         $pairs = explode('&', $input);
-        
+
         $parsed_parameters = array();
         foreach ($pairs as $pair) {
-            $split     = explode('=', $pair, 2);
+            $split = explode('=', $pair, 2);
             $parameter = OAuthUtil::urldecode_rfc3986($split[0]);
-            $value     = isset($split[1]) ? OAuthUtil::urldecode_rfc3986($split[1]) : '';
-            
+            $value = isset($split[1]) ? OAuthUtil::urldecode_rfc3986($split[1]) : '';
+
             if (isset($parsed_parameters[$parameter])) {
                 // We have already recieved parameter(s) with this name, so add to the list
                 // of parameters with this name
-                
+
                 if (is_scalar($parsed_parameters[$parameter])) {
                     // This is the first duplicate, so transform scalar (string) into an array
                     // so we can add the duplicates
@@ -174,7 +174,7 @@ class OAuthUtil
                         $parsed_parameters[$parameter]
                     );
                 }
-                
+
                 $parsed_parameters[$parameter][] = $value;
             } else {
                 $parsed_parameters[$parameter] = $value;
@@ -193,16 +193,16 @@ class OAuthUtil
         if (!$params) {
             return '';
         }
-        
+
         // Urlencode both keys and values
-        $keys   = OAuthUtil::urlencode_rfc3986(array_keys($params));
+        $keys = OAuthUtil::urlencode_rfc3986(array_keys($params));
         $values = OAuthUtil::urlencode_rfc3986(array_values($params));
         $params = array_combine($keys, $values);
-        
+
         // Parameters are sorted by name, using lexicographical byte value ordering.
         // Ref: Spec: 9.1.1 (1)
         uksort($params, 'strcmp');
-        
+
         $pairs = array();
         foreach ($params as $parameter => $value) {
             if (is_array($value)) {

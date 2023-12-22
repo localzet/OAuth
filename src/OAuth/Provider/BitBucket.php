@@ -26,9 +26,10 @@
 
 namespace localzet\OAuth\Provider;
 
+use Exception;
 use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\User;
 
 /**
@@ -93,7 +94,7 @@ class BitBucket extends OAuth2
             try {
                 // user email is not mandatory so keep it quiet
                 $userProfile = $this->requestUserEmail($userProfile);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
@@ -107,7 +108,7 @@ class BitBucket extends OAuth2
      *
      * @return User\Profile
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function requestUserEmail($userProfile)
     {

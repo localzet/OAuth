@@ -26,8 +26,9 @@
 
 namespace localzet\OAuth\Logger;
 
-use localzet\OAuth\Exception\RuntimeException;
+use DateTime;
 use localzet\OAuth\Exception\InvalidArgumentException;
+use localzet\OAuth\Exception\RuntimeException;
 
 /**
  * Debugging and Logging utility.
@@ -112,7 +113,7 @@ class Logger implements LoggerInterface
      */
     public function debug($message, array $context = [])
     {
-        if (!in_array($this->level, [self::DEBUG])) {
+        if ($this->level != self::DEBUG) {
             return;
         }
 
@@ -136,7 +137,7 @@ class Logger implements LoggerInterface
      */
     public function log($level, $message, array $context = [])
     {
-        $datetime = new \DateTime();
+        $datetime = new DateTime();
         $datetime = $datetime->format(DATE_ATOM);
 
         $content = sprintf('%s -- %s -- %s -- %s', $level, $_SERVER['REMOTE_ADDR'], $datetime, $message);

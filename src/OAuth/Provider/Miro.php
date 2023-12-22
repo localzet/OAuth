@@ -27,11 +27,13 @@
 namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
+use localzet\OAuth\Data;
 use localzet\OAuth\Exception\Exception;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
-use localzet\OAuth\Data;
 use localzet\OAuth\User;
+
 // sYP0tJ5o5A_urI44VTRQn30MBg0
+
 /**
  * Miro OAuth2 provider adapter.
  */

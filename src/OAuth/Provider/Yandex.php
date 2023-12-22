@@ -27,9 +27,9 @@
 namespace localzet\OAuth\Provider;
 
 use localzet\OAuth\Adapter\OAuth2;
+use localzet\OAuth\Data;
 use localzet\OAuth\Exception\Exception;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
-use localzet\OAuth\Data;
 use localzet\OAuth\User;
 
 /**
@@ -56,7 +56,7 @@ class Yandex extends OAuth2
      * {@inheritdoc}
      */
     protected $apiDocumentation
-    = 'https://yandex.com/dev/oauth/doc/dg/concepts/about-docpage/';
+        = 'https://yandex.com/dev/oauth/doc/dg/concepts/about-docpage/';
 
     /**
      * Load the user profile from the IDp api client

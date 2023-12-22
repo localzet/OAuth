@@ -26,6 +26,8 @@
 
 namespace localzet\OAuth\HttpClient;
 
+use CURLFile;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
@@ -113,7 +115,7 @@ class Guzzle implements HttpClientInterface
     /**
      * GuzzleHttp client
      *
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     protected $client = null;
 
@@ -167,7 +169,7 @@ class Guzzle implements HttpClientInterface
                     if ($multipart) {
                         $body_content = [];
                         foreach ($parameters as $key => $val) {
-                            if ($val instanceof \CURLFile) {
+                            if ($val instanceof CURLFile) {
                                 $val = fopen($val->getFilename(), 'r');
                             }
 
@@ -184,7 +186,7 @@ class Guzzle implements HttpClientInterface
                     ]);
                     break;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response = $e->getResponse();
 
             $this->responseClientError = $e->getMessage();

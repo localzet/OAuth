@@ -26,17 +26,18 @@
 
 namespace localzet\OAuth\Adapter;
 
-use localzet\OAuth\Exception\NotImplementedException;
-use localzet\OAuth\Exception\InvalidArgumentException;
+use localzet\OAuth\Data;
 use localzet\OAuth\Exception\HttpClientFailureException;
 use localzet\OAuth\Exception\HttpRequestFailedException;
-use localzet\OAuth\Storage\StorageInterface;
-use localzet\OAuth\Storage\Session;
-use localzet\OAuth\Logger\LoggerInterface;
-use localzet\OAuth\Logger\Logger;
-use localzet\OAuth\HttpClient\HttpClientInterface;
+use localzet\OAuth\Exception\InvalidArgumentException;
+use localzet\OAuth\Exception\NotImplementedException;
 use localzet\OAuth\HttpClient\Curl as HttpClient;
-use localzet\OAuth\Data;
+use localzet\OAuth\HttpClient\HttpClientInterface;
+use localzet\OAuth\Logger\Logger;
+use localzet\OAuth\Logger\LoggerInterface;
+use localzet\OAuth\Storage\Session;
+use localzet\OAuth\Storage\StorageInterface;
+use ReflectionClass;
 
 /**
  * Class AbstractAdapter
@@ -105,17 +106,18 @@ abstract class AbstractAdapter implements AdapterInterface
      * Common adapters constructor.
      *
      * @param array $config
-     * @param HttpClientInterface $httpClient
-     * @param StorageInterface $storage
-     * @param LoggerInterface $logger
+     * @param HttpClientInterface|null $httpClient
+     * @param StorageInterface|null $storage
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
         $config = [],
         HttpClientInterface $httpClient = null,
         StorageInterface $storage = null,
         LoggerInterface $logger = null
-    ) {
-        $this->providerId = (new \ReflectionClass($this))->getShortName();
+    )
+    {
+        $this->providerId = (new ReflectionClass($this))->getShortName();
 
         $this->config = new Data\Collection($config);
 

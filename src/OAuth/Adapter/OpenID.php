@@ -26,13 +26,13 @@
 
 namespace localzet\OAuth\Adapter;
 
-use localzet\OAuth\Exception\InvalidOpenidIdentifierException;
-use localzet\OAuth\Exception\AuthorizationDeniedException;
-use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Exception\AuthorizationDeniedException;
+use localzet\OAuth\Exception\InvalidOpenidIdentifierException;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
 use localzet\OAuth\HttpClient;
-use localzet\OAuth\User;
 use localzet\OAuth\Thirdparty\OpenID\LightOpenID;
+use localzet\OAuth\User;
 
 /**
  * This class can be used to simplify the authentication flow of OpenID based service providers.

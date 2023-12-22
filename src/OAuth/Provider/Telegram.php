@@ -26,14 +26,14 @@
 
 namespace localzet\OAuth\Provider;
 
-use localzet\OAuth\HttpClient\Util;
-use localzet\OAuth\Data\Collection;
-use localzet\OAuth\User\Profile;
 use localzet\OAuth\Adapter\AbstractAdapter;
 use localzet\OAuth\Adapter\AdapterInterface;
+use localzet\OAuth\Data\Collection;
 use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
 use localzet\OAuth\Exception\InvalidAuthorizationCodeException;
 use localzet\OAuth\Exception\UnexpectedApiResponseException;
+use localzet\OAuth\HttpClient\Util;
+use localzet\OAuth\User\Profile;
 
 /**
  * Telegram provider adapter.
@@ -204,7 +204,7 @@ class Telegram extends AbstractAdapter implements AdapterInterface
         $nonce_code = empty($nonce) ? '' : "nonce=\"{$nonce}\"";
 
         exit(
-            <<<HTML
+        <<<HTML
 <center>
     <script async src="https://telegram.org/js/telegram-widget.js?7"
             {$nonce_code}

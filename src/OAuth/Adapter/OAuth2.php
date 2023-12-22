@@ -26,13 +26,16 @@
 
 namespace localzet\OAuth\Adapter;
 
-use localzet\OAuth\Exception\Exception;
-use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
-use localzet\OAuth\Exception\InvalidAuthorizationStateException;
-use localzet\OAuth\Exception\InvalidAuthorizationCodeException;
-use localzet\OAuth\Exception\AuthorizationDeniedException;
-use localzet\OAuth\Exception\InvalidAccessTokenException;
 use localzet\OAuth\Data;
+use localzet\OAuth\Data\Collection;
+use localzet\OAuth\Exception\AuthorizationDeniedException;
+use localzet\OAuth\Exception\Exception;
+use localzet\OAuth\Exception\HttpClientFailureException;
+use localzet\OAuth\Exception\HttpRequestFailedException;
+use localzet\OAuth\Exception\InvalidAccessTokenException;
+use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
+use localzet\OAuth\Exception\InvalidAuthorizationCodeException;
+use localzet\OAuth\Exception\InvalidAuthorizationStateException;
 use localzet\OAuth\HttpClient;
 
 /**
@@ -279,7 +282,7 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
         if ($this->config->exists('tokens')) {
             $this->setAccessToken($this->config->get('tokens'));
         }
-        
+
         if ($this->config->exists('supportRequestState')) {
             $this->supportRequestState = $this->config->get('supportRequestState');
         }
@@ -380,8 +383,8 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
      *
      * http://tools.ietf.org/html/rfc6749#section-4.1.2.1
      *
-     * @throws \localzet\OAuth\Exception\InvalidAuthorizationCodeException
-     * @throws \localzet\OAuth\Exception\AuthorizationDeniedException
+     * @throws InvalidAuthorizationCodeException
+     * @throws AuthorizationDeniedException
      */
     protected function authenticateCheckError()
     {
@@ -419,8 +422,8 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
     /**
      * Finalize the authorization process
      *
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      * @throws InvalidAccessTokenException
      * @throws InvalidAuthorizationStateException
      */
@@ -528,8 +531,8 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
      * @param string $code
      *
      * @return string Raw Provider API response
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      */
     protected function exchangeCodeForAccessToken($code)
     {
@@ -577,14 +580,14 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
      *
      * @param string $response
      *
-     * @return \localzet\OAuth\Data\Collection
+     * @return Collection
      * @throws InvalidAccessTokenException
      */
     protected function validateAccessTokenExchange($response)
     {
         $data = (new Data\Parser())->parse($response);
 
-        $collection = new Data\Collection($data);
+        $collection = new Collection($data);
 
         if (!$collection->exists('access_token')) {
             throw new InvalidAccessTokenException(
@@ -633,8 +636,8 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
      * @param array $parameters
      *
      * @return string|null Raw Provider API response, or null if we cannot refresh
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      * @throws InvalidAccessTokenException
      */
     public function refreshAccessToken($parameters = [])
@@ -698,7 +701,7 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
      *
      * @param $response
      *
-     * @return \localzet\OAuth\Data\Collection
+     * @return Collection
      * @throws InvalidAccessTokenException
      */
     protected function validateRefreshAccessToken($response)
@@ -727,8 +730,8 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
      * @param bool $multipart
      *
      * @return mixed
-     * @throws \localzet\OAuth\Exception\HttpClientFailureException
-     * @throws \localzet\OAuth\Exception\HttpRequestFailedException
+     * @throws HttpClientFailureException
+     * @throws HttpRequestFailedException
      * @throws InvalidAccessTokenException
      */
     public function apiRequest($url, $method = 'GET', $parameters = [], $headers = [], $multipart = false)

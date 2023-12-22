@@ -26,23 +26,57 @@
 
 namespace localzet\OAuth\Provider;
 
+use localzet\OAuth\Adapter\OAuth2;
+use localzet\OAuth\Data;
+use localzet\OAuth\Exception\UnexpectedApiResponseException;
+use localzet\OAuth\User;
+
 /**
- * Blizzard US/SEA Battle.net OAuth2 provider adapter.
+ * Seznam OAuth2 provider adapter.
  */
-class BlizzardAPAC extends Blizzard
+class Seznam extends OAuth2
 {
     /**
      * {@inheritdoc}
      */
-    protected $apiBaseUrl = 'https://apac.battle.net/';
+    protected $apiBaseUrl = 'https://login.szn.cz/';
 
     /**
      * {@inheritdoc}
      */
-    protected $authorizeUrl = 'https://apac.battle.net/oauth/authorize';
+    protected $authorizeUrl = 'https://login.szn.cz/api/v1/oauth/auth';
 
     /**
      * {@inheritdoc}
      */
-    protected $accessTokenUrl = 'https://apac.battle.net/oauth/token';
+    protected $accessTokenUrl = 'https://login.szn.cz/api/v1/oauth/token';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $apiDocumentation = 'https://vyvojari.seznam.cz/oauth/doc';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserProfile()
+    {
+        $response = $this->apiRequest('api/v1/user', 'GET', ['format' => 'json']);
+
+        $data = new Data\Collection($response);
+
+        if (!$data->exists('oauth_user_id')) {
+            throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
+        }
+
+        $userProfile = new User\Profile();
+
+        $userProfile->identifier = $data->get('oauth_user_id');
+        $userProfile->email = $data->get('account_name');
+        $userProfile->firstName = $data->get('firstname');
+        $userProfile->lastName = $data->get('lastname');
+        $userProfile->photoURL = $data->get('avatar_url');
+
+        return $userProfile;
+    }
 }

@@ -36,10 +36,12 @@
         "source": "https://github.com/localzet/OAuth"
     },
     "require": {
-        "php": "^7.4 || ^8.0"
+        "php": "^7.4 || ^8.0",
+        "ext-mbstring": "*",
+      "ext-json": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
-        "ext-curl": "*"
     },
     "suggest": {
         "localzet/jwt": "Needed to support Apple provider",

@@ -27,8 +27,11 @@
 namespace localzet\OAuth\Adapter;
 
 use localzet\OAuth\HttpClient\HttpClientInterface;
-use localzet\OAuth\Storage\StorageInterface;
 use localzet\OAuth\Logger\LoggerInterface;
+use localzet\OAuth\Storage\StorageInterface;
+use localzet\OAuth\User\Activity;
+use localzet\OAuth\User\Contact;
+use localzet\OAuth\User\Profile;
 
 /**
  * Interface AdapterInterface
@@ -57,14 +60,14 @@ interface AdapterInterface
     /**
      * Retrieve the connected user profile
      *
-     * @return \localzet\OAuth\User\Profile
+     * @return Profile
      */
     public function getUserProfile();
 
     /**
      * Retrieve the connected user contacts list
      *
-     * @return \localzet\OAuth\User\Contact[]
+     * @return Contact[]
      */
     public function getUserContacts();
 
@@ -80,7 +83,7 @@ interface AdapterInterface
      *
      * @param string $stream
      *
-     * @return \localzet\OAuth\User\Activity[]
+     * @return Activity[]
      */
     public function getUserActivity($stream);
 
@@ -139,7 +142,7 @@ interface AdapterInterface
     /**
      * Set http client instance.
      *
-     * @param HttpClientInterface $httpClient
+     * @param HttpClientInterface|null $httpClient
      */
     public function setHttpClient(HttpClientInterface $httpClient = null);
 
@@ -151,7 +154,7 @@ interface AdapterInterface
     /**
      * Set storage instance.
      *
-     * @param StorageInterface $storage
+     * @param StorageInterface|null $storage
      */
     public function setStorage(StorageInterface $storage = null);
 
@@ -163,7 +166,7 @@ interface AdapterInterface
     /**
      * Set Logger instance.
      *
-     * @param LoggerInterface $logger
+     * @param LoggerInterface|null $logger
      */
     public function setLogger(LoggerInterface $logger = null);
 

@@ -29,21 +29,18 @@ namespace localzet\OAuth\Provider;
 use Composer\InstalledVersions;
 use Exception;
 use Firebase\JWT\ExpiredException;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use localzet\OAuth\Adapter\OAuth2;
+use localzet\OAuth\Data;
 use localzet\OAuth\Exception\HttpClientFailureException;
 use localzet\OAuth\Exception\HttpRequestFailedException;
 use localzet\OAuth\Exception\InvalidAccessTokenException;
 use localzet\OAuth\Exception\InvalidApplicationCredentialsException;
 use localzet\OAuth\Exception\UnexpectedValueException;
-
-use localzet\OAuth\Adapter\OAuth2;
-use localzet\OAuth\Data;
 use localzet\OAuth\User;
-
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Math\BigInteger;
-
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 /**
  * Apple OAuth2 provider adapter.
