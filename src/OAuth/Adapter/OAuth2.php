@@ -41,7 +41,7 @@ use localzet\OAuth\HttpClient;
  * Subclasses (i.e., providers adapters) can either use the already provided methods or override
  * them when necessary.
  */
-class OAuth2 extends AbstractAdapter implements AdapterInterface
+abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
 {
     /**
      * Client Identifier
@@ -279,6 +279,10 @@ class OAuth2 extends AbstractAdapter implements AdapterInterface
         if ($this->config->exists('tokens')) {
             $this->setAccessToken($this->config->get('tokens'));
         }
+        
+        if ($this->config->exists('supportRequestState')) {
+            $this->supportRequestState = $this->config->get('supportRequestState');
+        }
 
         $this->setCallback($this->config->get('callback'));
         $this->setApiEndpoints($this->config->get('endpoints'));
@@ -440,8 +444,9 @@ class OAuth2 extends AbstractAdapter implements AdapterInterface
          * http://tools.ietf.org/html/rfc6749#section-4.1.1
          */
         if ($this->supportRequestState
-            && $this->getStoredData('authorization_state') != $state
+            && (!$state || $this->getStoredData('authorization_state') != $state)
         ) {
+            $this->deleteStoredData('authorization_state');
             throw new InvalidAuthorizationStateException(
                 'Состояние авторизации [state=' . substr(htmlentities($state), 0, 100) . '] '
                 . 'либо недействительно, либо уже было использовано'
@@ -537,7 +542,6 @@ class OAuth2 extends AbstractAdapter implements AdapterInterface
             $this->tokenExchangeHeaders
         );
 
-
         $this->validateApiResponse('Unable to exchange code for API access token');
 
         return $response;
@@ -584,7 +588,7 @@ class OAuth2 extends AbstractAdapter implements AdapterInterface
 
         if (!$collection->exists('access_token')) {
             throw new InvalidAccessTokenException(
-                'Провайдер вернул не OAuth_token: ' . htmlentities($response)
+                'Provider returned no access_token: ' . htmlentities($response)
             );
         }
 
