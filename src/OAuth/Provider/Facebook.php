@@ -261,7 +261,7 @@ class Facebook extends OAuth2
      */
     protected function fetchBirthday(User\Profile $userProfile, $birthday)
     {
-        $result = (new Data\Parser())->parseBirthday($birthday, '/');
+        $result = (new Data\Parser())->parseBirthday($birthday);
 
         $userProfile->birthYear = (int)$result[0];
         $userProfile->birthMonth = (int)$result[1];
