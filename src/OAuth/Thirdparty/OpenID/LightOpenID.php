@@ -24,27 +24,12 @@
  *              For any questions, please contact <creator@localzet.com>
  */
 
-/*!
-* This file is part of the LightOpenID PHP Library (https://github.com/iignatov/LightOpenID)
-*
-* LightOpenID is an open source software available under the MIT License.
-*
-* Updated: 52f9910  on 4 Mar 2016.
-*/
-
 namespace localzet\OAuth\Thirdparty\OpenID;
 
-use localzet\OAuth\Exception\Exception;
-use localzet\OAuth\Exception\ExceptionInterface;
 
-/**
- * Class ErrorException
- *
- * @package localzet\OAuth\Thirdparty\OpenID
- */
-class ErrorException extends Exception implements ExceptionInterface
-{
-}
+
+
+use localzet\OAuth\Exception\ErrorException;
 
 /**
  * This class provides a simple interface for OpenID 1.1/2.0 authentication.

@@ -24,12 +24,6 @@
  *              For any questions, please contact <creator@localzet.com>
  */
 
-/*!
-* This file is part of the OAuth PHP Library (https://code.google.com/p/oauth/)
-*
-* OAuth `PHP' Library is an open source software available under the MIT License.
-*/
-
 namespace localzet\OAuth\Thirdparty\OAuth;
 
 /**

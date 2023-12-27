@@ -54,21 +54,21 @@ class OAuth
      *
      * @var StorageInterface
      */
-    protected $storage;
+    protected ?StorageInterface $storage;
 
     /**
      * HttpClient.
      *
      * @var HttpClientInterface
      */
-    protected $httpClient;
+    protected ?HttpClientInterface $httpClient;
 
     /**
      * Logger.
      *
      * @var LoggerInterface
      */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
     /**
      * @param array|string $config Массив с конфигурацией или путем к файлу PHP, который вернет массив
@@ -106,7 +106,7 @@ class OAuth
      * Instantiate the given provider and authentication or authorization protocol.
      *
      * If not authenticated yet, the user will be redirected to the provider's site for
-     * authentication/authorisation, otherwise it will simply return an instance of
+     * authentication/authorization, otherwise it will simply return an instance of
      * provider's adapter.
      *
      * @param string $name adapter's name (case insensitive)
