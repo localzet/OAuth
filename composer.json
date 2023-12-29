@@ -1,55 +1,55 @@
 {
-    "name": "localzet/oauth",
-    "description": "Localzet OAuth - это мощная библиотека для OAuth-аутентификации, поддерживающая множество популярных провайдеров, таких как Google, Facebook, Twitter и Apple.",
-    "type": "library",
-    "keywords": [
-        "oauth",
-        "openid",
-        "authentication",
-        "authorization",
-        "social",
-        "api",
-        "google",
-        "facebook",
-        "twitter",
-        "apple",
-        "localzet",
-        "library",
-        "OAuth2",
-        "identity",
-        "security",
-        "login"
-    ],
-    "homepage": "https://www.localzet.com/projects/oauth",
-    "license": "AGPL-3.0-or-later",
-    "authors": [
-        {
-            "name": "Ivan Zorin",
-            "email": "creator@localzet.com",
-            "homepage": "https://www.localzet.com",
-            "role": "Developer"
-        }
-    ],
-    "support": {
-        "email": "support@localzet.com",
-        "issues": "https://github.com/localzet/OAuth/issues",
-        "source": "https://github.com/localzet/OAuth"
-    },
-    "require": {
-        "php": "^7.4 || ^8.0",
-        "ext-mbstring": "*",
-      "ext-json": "*",
-        "ext-curl": "*"
-    },
-    "require-dev": {
-    },
-    "suggest": {
-        "localzet/jwt": "Needed to support Apple provider",
-        "phpseclib/phpseclib": "Needed to support Apple provider"
-    },
-    "autoload": {
-        "psr-4": {
-            "localzet\\": "src"
-        }
+  "name": "localzet/oauth",
+  "description": "Localzet OAuth - это мощная библиотека для OAuth-аутентификации, поддерживающая множество популярных провайдеров, таких как Google, Facebook, Twitter и Apple.",
+  "type": "library",
+  "keywords": [
+    "oauth",
+    "openid",
+    "authentication",
+    "authorization",
+    "social",
+    "api",
+    "google",
+    "facebook",
+    "twitter",
+    "apple",
+    "localzet",
+    "library",
+    "OAuth2",
+    "identity",
+    "security",
+    "login"
+  ],
+  "homepage": "https://www.localzet.com/projects/oauth",
+  "license": "AGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Ivan Zorin",
+      "email": "creator@localzet.com",
+      "homepage": "https://www.localzet.com",
+      "role": "Developer"
     }
+  ],
+  "support": {
+    "email": "support@localzet.com",
+    "issues": "https://github.com/localzet/OAuth/issues",
+    "source": "https://github.com/localzet/OAuth"
+  },
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-mbstring": "*",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+    "localzet/jwt": "Needed to support Apple provider",
+    "phpseclib/phpseclib": "Needed to support Apple provider"
+  },
+  "autoload": {
+    "psr-4": {
+      "localzet\\": "src"
+    }
+  }
 }
