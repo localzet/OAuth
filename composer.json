@@ -1,6 +1,6 @@
 {
   "name": "localzet/oauth",
-  "description": "Localzet OAuth - это мощная библиотека для OAuth-аутентификации, поддерживающая множество популярных провайдеров, таких как Google, Facebook, Twitter и Apple.",
+  "description": "Localzet OAuth is a powerful library for OAuth authentication, supporting a variety of popular providers such as Google, Facebook, Twitter, and Apple.",
   "type": "library",
   "keywords": [
     "oauth",
@@ -20,14 +20,13 @@
     "security",
     "login"
   ],
-  "homepage": "https://www.localzet.com/projects/oauth",
   "license": "AGPL-3.0-or-later",
   "authors": [
     {
+      "role": "Developer",
       "name": "Ivan Zorin",
       "email": "creator@localzet.com",
-      "homepage": "https://www.localzet.com",
-      "role": "Developer"
+      "homepage": "https://github.com/localzet"
     }
   ],
   "support": {
