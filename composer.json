@@ -40,8 +40,7 @@
     "ext-json": "*",
     "ext-curl": "*"
   },
-  "require-dev": {
-  },
+  "require-dev": {},
   "suggest": {
     "localzet/jwt": "Needed to support Apple provider",
     "phpseclib/phpseclib": "Needed to support Apple provider"
