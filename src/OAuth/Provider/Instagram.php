@@ -150,7 +150,7 @@ class Instagram extends OAuth2
             $url = 'https://graph.instagram.com/access_token';
         }
 
-        $response = $this->httpClient->request(
+        $response = (string)$this->httpClient->request(
             $url,
             'GET',
             $exchangeTokenParameters

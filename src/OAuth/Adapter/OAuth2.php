@@ -538,7 +538,7 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
     {
         $this->tokenExchangeParameters['code'] = $code;
 
-        $response = $this->httpClient->request(
+        $response = (string)$this->httpClient->request(
             $this->accessTokenUrl,
             $this->tokenExchangeMethod,
             $this->tokenExchangeParameters,
@@ -650,7 +650,7 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
             return null;
         }
 
-        $response = $this->httpClient->request(
+        $response = (string)$this->httpClient->request(
             $this->accessTokenUrl,
             $this->tokenRefreshMethod,
             $this->tokenRefreshParameters,
@@ -749,7 +749,7 @@ abstract class OAuth2 extends AbstractAdapter implements AdapterInterface
         $parameters = array_replace($this->apiRequestParameters, (array)$parameters);
         $headers = array_replace($this->apiRequestHeaders, (array)$headers);
 
-        $response = $this->httpClient->request(
+        $response = (string)$this->httpClient->request(
             $url,
             $method,     // HTTP Request Method. Defaults to GET.
             $parameters, // Request Parameters

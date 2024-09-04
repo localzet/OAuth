@@ -38,7 +38,8 @@
     "php": "^7.4 || ^8.0",
     "ext-mbstring": "*",
     "ext-json": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-openssl": "*"
   },
   "require-dev": {},
   "suggest": {

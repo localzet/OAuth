@@ -623,7 +623,7 @@ abstract class OAuth1 extends AbstractAdapter implements AdapterInterface
         $uri = $request->get_normalized_http_url();
         $headers = array_replace($request->to_header(), (array)$headers);
 
-        $response = $this->httpClient->request(
+        $response = (string)$this->httpClient->request(
             $uri,
             $method,
             $parameters,

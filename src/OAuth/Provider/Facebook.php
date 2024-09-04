@@ -149,7 +149,7 @@ class Facebook extends OAuth2
             'fb_exchange_token' => $this->getStoredData('access_token'),
         ];
 
-        $response = $this->httpClient->request(
+        $response = (string)$this->httpClient->request(
             $this->accessTokenUrl,
             'GET',
             $exchangeTokenParameters
