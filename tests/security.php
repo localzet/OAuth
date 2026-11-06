@@ -11,7 +11,9 @@ if (!extension_loaded('curl')) {
 }
 
 $client = new Curl();
-$options = (new ReflectionProperty(Curl::class, 'curlOptions'))->getValue($client);
+$property = new ReflectionProperty(Curl::class, 'curlOptions');
+$property->setAccessible(true); // Required on PHP 7.4.
+$options = $property->getValue($client);
 if (($options[CURLOPT_SSL_VERIFYPEER] ?? null) !== true) {
     throw new RuntimeException('TLS peer verification must be enabled by default');
 }
