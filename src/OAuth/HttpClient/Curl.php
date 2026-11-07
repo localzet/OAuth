@@ -43,8 +43,8 @@ class Curl implements HttpClientInterface
     protected $curlOptions = [
         CURLOPT_TIMEOUT => 30,
         CURLOPT_CONNECTTIMEOUT => 30,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_MAXREDIRS => 5,
@@ -182,7 +182,11 @@ class Curl implements HttpClientInterface
 
         if ($this->logger) {
             // phpcs:ignore
-            $this->logger->debug(sprintf('%s::request( %s, %s ), response:', get_class($this), $uri, $method), $this->getResponse());
+            // Never pass OAuth codes, tokens, request headers or response bodies to debug logs.
+            $this->logger->debug(sprintf('%s::request(%s) completed', get_class($this), $method), [
+                'status' => $this->getResponseHttpCode(),
+                'host' => parse_url($uri, PHP_URL_HOST),
+            ]);
 
             if (false === $response) {
                 // phpcs:ignore
